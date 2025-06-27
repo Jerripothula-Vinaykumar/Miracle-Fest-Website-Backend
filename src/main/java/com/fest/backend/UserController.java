@@ -16,11 +16,18 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @PostMapping("/login")
+    public String hii(@RequestBody FestUser user)
+    {
+        userRepository.save(user);
+        return "Email : " + user.getEmail() + "Password : " + user.getPassword();
+    }
     @GetMapping("/signup")
     public String hello()
     {
-        return "Hello from Vina";
+        return "Hello from Vinay";
     }
+
 
 
 }
