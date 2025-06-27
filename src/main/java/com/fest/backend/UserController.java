@@ -16,7 +16,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("signup")
+    @GetMapping("/signup")
     public String hello()
     {
         return "Hello from Vina";
