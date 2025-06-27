@@ -16,13 +16,10 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/signup")
-    public FestUser greet(@RequestBody FestUser user)
+    @GetMapping("signup")
+    public String hello()
     {
-        System.out.println("Email From Frontend : " + user.getEmail());
-        System.out.println("Password From Frontend : " + user.getPassword());
-        return userRepository.save(user);
-
+        return "Hello from Vina";
     }
 
 
