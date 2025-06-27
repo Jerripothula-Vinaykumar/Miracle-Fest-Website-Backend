@@ -19,8 +19,9 @@ public class UserController {
     @PostMapping("/login")
     public String hii(@RequestBody FestUser user)
     {
-        userRepository.save(user);
-        return "Email : " + user.getEmail() + "Password : " + user.getPassword();
+        boolean bl = userRepository.save(user);
+
+        return "Email : " + user.getEmail() + "Password : " + user.getPassword() + "boolean : " + bl;
     }
     @GetMapping("/signup")
     public String hello()
