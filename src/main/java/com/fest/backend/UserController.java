@@ -24,11 +24,6 @@ public class UserController {
         return userRepository.save(user);
 
     }
-    @GetMapping("/signup/{user-id}")
-    public FestUser finduser( @PathVariable("user-id") Integer id)
-    {
-        return userRepository.findById(id)
-                .orElse(new FestUser());
-    }
+
 
 }
