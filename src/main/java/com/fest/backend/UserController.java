@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class UserController {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -21,13 +21,9 @@ public class UserController {
     {
        userRepository.save(user);
 
-        return "Email : " + user.getEmail() + "Password : " + user.getPassword() + "boolean : " ;
+        return "Email : " + user.getEmail() + "Password : " + user.getPassword() ;
     }
-    @GetMapping("/signup")
-    public String hello()
-    {
-        return "Hello from Vinay";
-    }
+
 
 
 
