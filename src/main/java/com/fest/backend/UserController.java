@@ -34,12 +34,47 @@ public class UserController {
     {
         FestUser user = userRepository.findById(id).orElseThrow( ()-> new RuntimeException("User Not Found") );
 
-        if (patchuser.getUsername() != null) {
+        if (patchuser.getBranch() != null )
+        {
+            user.setBranch(patchuser.getBranch());
+        }
+        if (patchuser.getDistrict() != null )
+        {
+            user.setDistrict(patchuser.getDistrict());
+        }
+        if (patchuser.getInstaid() != null )
+        {
+            user.setInstaid(patchuser.getInstaid());
+        }
+        if ( patchuser.getLinkedin() != null )
+        {
+            user.setLinkedin(patchuser.getLinkedin());
+        }
+        if (patchuser.getMobileno() != null )
+        {
+            user.setMobileno(patchuser.getMobileno());
+        }
+        if (patchuser.getSection() != null )
+        {
+            user.setSection(patchuser.getSection());
+        }
+        if (patchuser.getState() != null )
+        {
+            user.setState(patchuser.getState());
+        }
+        if (patchuser.getUsername() != null)
+        {
             user.setUsername(patchuser.getUsername());
         }
-        if (patchuser.getYear() != null ) {
+        if (patchuser.getVillage() != null )
+        {
+            user.setVillage(patchuser.getVillage());
+        }
+        if (patchuser.getYear() != null )
+        {
             user.setYear(patchuser.getYear());
         }
+
         userRepository.save(user);
         return "username : " + user.getUsername() + "Year : " + user.getYear() ;
     }
