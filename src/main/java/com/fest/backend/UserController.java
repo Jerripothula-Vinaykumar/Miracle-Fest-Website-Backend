@@ -40,6 +40,7 @@ public class UserController {
         if (patchuser.getYear() != null ) {
             user.setYear(patchuser.getYear());
         }
+        userRepository.save(user);
         return "username : " + user.getUsername() + "Year : " + user.getYear() ;
     }
 
