@@ -23,7 +23,11 @@ public class UserController {
 
         return "Email : " + user.getEmail() + "Password : " + user.getPassword() ;
     }
-
+    @GetMapping("/sign")
+    public String hello()
+    {
+        return "Hello Vinay ";
+    }
 
 
 
