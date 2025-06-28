@@ -29,6 +29,19 @@ public class UserController {
         return "Hello Vinay ";
     }
 
+    @PatchMapping("/login/{id}")
+    public String hiii( @PathVariable int id , @RequestBody FestUser patchuser)
+    {
+        FestUser user = userRepository.findById(id).orElseThrow( ()-> new RuntimeException("User Not Found") );
+
+        if (patchuser.getUsername() != null) {
+            user.setUsername(patchuser.getUsername());
+        }
+        if (patchuser.getYear() != null ) {
+            user.setYear(patchuser.getYear());
+        }
+        return "username : " + user.getUsername() + "Year : " + user.getYear() ;
+    }
 
 
 }
