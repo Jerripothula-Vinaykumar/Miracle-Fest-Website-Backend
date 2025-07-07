@@ -2,7 +2,12 @@ package com.fest.backend.Controller;
 
 import com.fest.backend.Entity.FestUser;
 import com.fest.backend.Repository.UserRepository;
+import com.fest.backend.Service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
+
 @CrossOrigin(
         origins = {
                 "https://miracle-fest-website-bimu.vercel.app",
@@ -19,27 +24,41 @@ import org.springframework.web.bind.annotation.*;
 )
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("api/auth")
 public class UserController {
 
     private final UserRepository userRepository;
-
-    public UserController (UserRepository userRepository) {
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    public UserController (UserRepository userRepository, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
             this.userRepository = userRepository;
+        this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @GetMapping ("/hello")
+    public String hello()
+    {
+        return "Hello";
     }
 
     @PostMapping ("/login")
-    public String hii(@RequestBody FestUser user)
+    public String login(@RequestBody FestUser user)
     {
-       userRepository.save(user);
+        var valid_user = userRepository.findByEmail(user.getEmail());
+        if( user.getEmail().equals(valid_user.getEmail())  && bCryptPasswordEncoder.matches(user.getPassword() , valid_user.getPassword())) {
+            return "Login Successfully";
+        }
 
-        return "Login Successfully" ;
+
+        return "User Not Found" + "password : " + valid_user.getPassword() ;
     }
     @PostMapping ("/signup")
-    public String hello(@RequestBody FestUser user)
+    public FestUser signup(@RequestBody FestUser user)
     {
-        userRepository.save(user);
-        return "Register Successfully";
+//        userRepository.save(user);
+
+        return userService.register(user);
     }
 
     @PatchMapping("/login/{id}")
