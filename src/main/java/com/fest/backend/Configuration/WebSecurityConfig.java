@@ -33,13 +33,13 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("api/auth/login" , "api/auth/signup" ).permitAll()
+                                .requestMatchers("api/auth/login", "api/auth/signup").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
-//                .formLogin(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults());
 //                .httpBasic(Customizer.withDefaults());
-        ;
+
 
         return httpSecurity.build();
     }
