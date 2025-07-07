@@ -8,20 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-@CrossOrigin(
-        origins = {
-                "https://miracle-fest-website-bimu.vercel.app",
-                "http://localhost:5173"
-        },
-        allowedHeaders = "*",
-        methods = {
-                RequestMethod.GET,
-                RequestMethod.POST,
-                RequestMethod.PUT,
-                RequestMethod.PATCH,
-                RequestMethod.DELETE
-        }
-)
+
 
 @RestController
 @RequestMapping("api/auth")

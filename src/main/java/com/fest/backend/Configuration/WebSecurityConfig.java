@@ -31,6 +31,7 @@ public class WebSecurityConfig {
 
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers("api/auth/login", "api/auth/signup").permitAll()
