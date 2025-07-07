@@ -1,5 +1,7 @@
-package com.fest.backend;
+package com.fest.backend.Controller;
 
+import com.fest.backend.Entity.FestUser;
+import com.fest.backend.Repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 @CrossOrigin(
         origins = {
@@ -22,21 +24,22 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController (UserRepository userRepository) {
+            this.userRepository = userRepository;
     }
 
-    @PostMapping("/login")
+    @PostMapping ("/login")
     public String hii(@RequestBody FestUser user)
     {
        userRepository.save(user);
 
-        return "Email : " + user.getEmail() + "Password : " + user.getPassword() ;
+        return "Login Successfully" ;
     }
-    @GetMapping("/sign")
-    public String hello()
+    @PostMapping ("/signup")
+    public String hello(@RequestBody FestUser user)
     {
-        return "Hello Vinay ";
+        userRepository.save(user);
+        return "Register Successfully";
     }
 
     @PatchMapping("/login/{id}")
@@ -86,7 +89,7 @@ public class UserController {
         }
 
         userRepository.save(user);
-        return "username : " + user.getUsername() + "Year : " + user.getYear() ;
+        return "User Details updated Successfully" ;
     }
 
 
