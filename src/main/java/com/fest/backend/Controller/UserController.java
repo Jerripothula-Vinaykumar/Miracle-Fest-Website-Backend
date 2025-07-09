@@ -3,8 +3,11 @@ package com.fest.backend.Controller;
 import com.fest.backend.Entity.FestUser;
 import com.fest.backend.Repository.UserRepository;
 import com.fest.backend.Service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.Objects;
 
@@ -30,15 +33,22 @@ public class UserController {
     }
 
     @PostMapping ("/login")
-    public String login(@RequestBody FestUser user)
+    public ResponseEntity<String> login(@RequestBody FestUser user)
     {
         var valid_user = userRepository.findByEmail(user.getEmail());
-        if( user.getEmail().equals(valid_user.getEmail())  && bCryptPasswordEncoder.matches(user.getPassword() , valid_user.getPassword())) {
-            return "Login Successfully";
+        if (!Objects.isNull(valid_user))
+        {
+            if( user.getEmail().equals(valid_user.getEmail())  && bCryptPasswordEncoder.matches(user.getPassword() , valid_user.getPassword())) {
+                return ResponseEntity.ok("Login Successfully");
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+            }
         }
-
-
-        return "User Not Found" + "password : " + valid_user.getPassword() ;
+        else
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found");
+        }
     }
     @PostMapping ("/signup")
     public FestUser signup(@RequestBody FestUser user)
