@@ -6,9 +6,7 @@ import jakarta.persistence.*;
 public class FestUser {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
 
     private String username;
     private String year;
@@ -21,6 +19,7 @@ public class FestUser {
     private String district;
     private String state;
     @Column(unique = true)
+    @Id
     private String email;
     private String password;
 
@@ -104,13 +103,6 @@ public class FestUser {
         this.year = year;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;
