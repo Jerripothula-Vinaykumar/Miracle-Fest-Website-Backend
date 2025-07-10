@@ -1,10 +1,6 @@
 package com.fest.backend.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class FestUser {
@@ -24,6 +20,7 @@ public class FestUser {
     private String village;
     private String district;
     private String state;
+    @Column(unique = true)
     private String email;
     private String password;
 

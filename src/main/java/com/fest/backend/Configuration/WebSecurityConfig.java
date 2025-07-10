@@ -2,9 +2,11 @@ package com.fest.backend.Configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -15,15 +17,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
     private  final UserDetailsService userDetailsService;
+    private final  JwtAuthenticatoinFilter jwtAuthenticatoinFilter;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, JwtAuthenticatoinFilter jwtAuthenticatoinFilter) {
         this.userDetailsService = userDetailsService;
+        this.jwtAuthenticatoinFilter = jwtAuthenticatoinFilter;
     }
 
     @Bean
@@ -34,12 +39,15 @@ public class WebSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("api/auth/login", "api/auth/signup").permitAll()
+                                .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll()
+                                .requestMatchers("/api/auth/hello").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )
-                .formLogin(Customizer.withDefaults());
-//                .httpBasic(Customizer.withDefaults());
+
+                .addFilterBefore(jwtAuthenticatoinFilter , UsernamePasswordAuthenticationFilter.class);
+
+               // .httpBasic(Customizer.withDefaults());
 
 
         return httpSecurity.build();
@@ -75,5 +83,10 @@ public class WebSecurityConfig {
         //provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         provider.setPasswordEncoder(bCryptPasswordEncoder());
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager ( AuthenticationConfiguration authenticationConfiguration ) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }

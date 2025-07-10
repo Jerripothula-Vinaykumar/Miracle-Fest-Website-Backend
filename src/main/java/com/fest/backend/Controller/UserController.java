@@ -20,6 +20,8 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
     public UserController (UserRepository userRepository, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
             this.userRepository = userRepository;
         this.userService = userService;
@@ -33,28 +35,13 @@ public class UserController {
     }
 
     @PostMapping ("/login")
-    public ResponseEntity<String> login(@RequestBody FestUser user)
+    public ResponseEntity<?>  login(@RequestBody FestUser user)
     {
-        var valid_user = userRepository.findByEmail(user.getEmail());
-        if (!Objects.isNull(valid_user))
-        {
-            if( user.getEmail().equals(valid_user.getEmail())  && bCryptPasswordEncoder.matches(user.getPassword() , valid_user.getPassword())) {
-                return ResponseEntity.ok("Login Successfully");
-            }
-            else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
-            }
-        }
-        else
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Found");
-        }
+        return userService.login(user);
     }
     @PostMapping ("/signup")
-    public FestUser signup(@RequestBody FestUser user)
+    public ResponseEntity<?> signup(@RequestBody FestUser user)
     {
-//        userRepository.save(user);
-
         return userService.register(user);
     }
 
