@@ -2,11 +2,10 @@ server:
   port: 8080
 
 spring:
-
   datasource:
-    url: jdbc:postgresql://dpg-d1f4asre5dus73fhilrg-a.oregon-postgres.render.com/miracle_fest_db
-    username: miracle_fest_db_user
-    password: gCeXJ6GwpK2pS8X0BbbQBuWSVT23X30t
+    url: jdbc:postgresql://db.enmsffabzuybtiaiysus.supabase.co:5432/postgres
+    username: postgres
+    password: 226C1A0544
     driver-class-name: org.postgresql.Driver
 
     hikari:
@@ -25,7 +24,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+
 
   devtools:
     restart:
