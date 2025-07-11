@@ -2,10 +2,6 @@ server:
   port: 8080
 
 spring:
-  security:
-    user:
-      name: vinay
-      password: 33333
 
   datasource:
     url: jdbc:postgresql://dpg-d1f4asre5dus73fhilrg-a.oregon-postgres.render.com/miracle_fest_db
