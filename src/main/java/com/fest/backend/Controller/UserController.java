@@ -53,7 +53,7 @@ public class UserController {
         return userService.getMyProfile(request);
     }
 
-    @PostMapping("/setProfile")
+    @PatchMapping ("/setProfile")
     public ResponseEntity<String> setProfile (@RequestBody FestUser user , HttpServletRequest request)
     {
         return userService.setMyProfile(user , request);
