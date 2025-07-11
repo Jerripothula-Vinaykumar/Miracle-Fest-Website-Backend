@@ -2,7 +2,7 @@ package com.fest.backend.Service;
 
 import com.fest.backend.Entity.FestUser;
 import com.fest.backend.Repository.UserRepository;
-import org.aspectj.weaver.patterns.IToken;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,9 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriBuilder;
-
-import java.util.Objects;
 
 @Service
 public class UserService {
@@ -80,5 +77,89 @@ public class UserService {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
         }
+    }
+
+
+    public ResponseEntity<String> setMyProfile(FestUser user, HttpServletRequest request) {
+
+        String authHeader = request.getHeader("Authorization");
+        if( authHeader == null || !authHeader.startsWith("Bearer "))
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or Invalid Token");
+        }
+        String token  = authHeader.substring(7);
+
+        String userEmail = jwtService.extractEmail(token);
+        FestUser festUser = userRepository.findByEmail(userEmail);
+
+        if (user.getUsername() != null)
+        {
+            festUser.setUsername(user.getUsername());
+        }
+        if (user.getBranch() != null )
+        {
+            festUser.setBranch(user.getBranch());
+        }
+        if (user.getDistrict() != null)
+        {
+            festUser.setDistrict(user.getDistrict());
+        }
+        if (user.getInstaid() != null)
+        {
+            festUser.setInstaid(user.getInstaid());
+        }
+        if (user.getLinkedin() != null)
+        {
+            festUser.setLinkedin(user.getLinkedin());
+        }
+        if (user.getMobileno() != null)
+        {
+            festUser.setMobileno(user.getMobileno());
+        }
+        if (user.getSection() != null)
+        {
+            festUser.setSection(user.getSection());
+        }
+        if (user.getState() != null)
+        {
+            festUser.setState(user.getState());
+        }
+        if (user.getVillage() != null)
+        {
+            festUser.setVillage(user.getVillage());
+        }
+        if (user.getYear() != null)
+        {
+            festUser.setYear(user.getYear());
+        }
+
+        userRepository.save(festUser);
+
+        return ResponseEntity.ok("Profile Updated");
+
+
+    }
+
+    public ResponseEntity<FestUser> getMyProfile(HttpServletRequest request) {
+
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+
+        String token = authHeader.substring(7);
+        String userEmail = jwtService.extractEmail(token);
+        FestUser festUser = userRepository.findByEmail(userEmail);
+        return  ResponseEntity.ok(festUser);
+
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+
     }
 }

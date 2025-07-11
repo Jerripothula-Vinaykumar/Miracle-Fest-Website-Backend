@@ -3,6 +3,7 @@ package com.fest.backend.Controller;
 import com.fest.backend.Entity.FestUser;
 import com.fest.backend.Repository.UserRepository;
 import com.fest.backend.Service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,65 +36,29 @@ public class UserController {
     }
 
     @PostMapping ("/login")
-    public ResponseEntity<?>  login(@RequestBody FestUser user)
+    public ResponseEntity<?>  login ( @RequestBody FestUser user )
     {
         return userService.login(user);
     }
+
     @PostMapping ("/signup")
-    public ResponseEntity<?> signup(@RequestBody FestUser user)
+    public ResponseEntity<?> signup ( @RequestBody FestUser user )
     {
         return userService.register(user);
     }
 
-    @PatchMapping("/login/{id}")
-    public String hiii( @PathVariable int id , @RequestBody FestUser patchuser)
+    @GetMapping("/getProfile")
+    public ResponseEntity<FestUser> getProfile ( HttpServletRequest request)
     {
-        FestUser user = userRepository.findById(id).orElseThrow( ()-> new RuntimeException("User Not Found") );
-
-        if (patchuser.getBranch() != null )
-        {
-            user.setBranch(patchuser.getBranch());
-        }
-        if (patchuser.getDistrict() != null )
-        {
-            user.setDistrict(patchuser.getDistrict());
-        }
-        if (patchuser.getInstaid() != null )
-        {
-            user.setInstaid(patchuser.getInstaid());
-        }
-        if ( patchuser.getLinkedin() != null )
-        {
-            user.setLinkedin(patchuser.getLinkedin());
-        }
-        if (patchuser.getMobileno() != null )
-        {
-            user.setMobileno(patchuser.getMobileno());
-        }
-        if (patchuser.getSection() != null )
-        {
-            user.setSection(patchuser.getSection());
-        }
-        if (patchuser.getState() != null )
-        {
-            user.setState(patchuser.getState());
-        }
-        if (patchuser.getUsername() != null)
-        {
-            user.setUsername(patchuser.getUsername());
-        }
-        if (patchuser.getVillage() != null )
-        {
-            user.setVillage(patchuser.getVillage());
-        }
-        if (patchuser.getYear() != null )
-        {
-            user.setYear(patchuser.getYear());
-        }
-
-        userRepository.save(user);
-        return "User Details updated Successfully" ;
+        return userService.getMyProfile(request);
     }
+
+    @PostMapping("/setProfile")
+    public ResponseEntity<String> setProfile (@RequestBody FestUser user , HttpServletRequest request)
+    {
+        return userService.setMyProfile(user , request);
+    }
+
 
 
 }
