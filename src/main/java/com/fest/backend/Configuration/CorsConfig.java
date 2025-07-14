@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173" , "https://miracle-fest-website-bimu.vercel.app" ) // your frontend origin
+                        .allowedOrigins("http://localhost:5173" , "https://miracle-fest-website-bimu.vercel.app" )
                         .allowedMethods("GET", "POST", "PUT","PATCH" ,  "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true); // required when using withCredentials:true
