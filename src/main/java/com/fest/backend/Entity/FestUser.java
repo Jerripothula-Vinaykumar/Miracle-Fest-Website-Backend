@@ -1,11 +1,13 @@
 package com.fest.backend.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class FestUser {
-
-
 
 
     private String username;
@@ -23,6 +25,15 @@ public class FestUser {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Token> tokens;
+
     public String getBranch() {
         return branch;
     }
@@ -37,6 +48,14 @@ public class FestUser {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getInstaid() {
@@ -63,6 +82,22 @@ public class FestUser {
         this.mobileno = mobileno;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getSection() {
         return section;
     }
@@ -77,6 +112,14 @@ public class FestUser {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 
     public String getUsername() {
@@ -102,22 +145,4 @@ public class FestUser {
     public void setYear(String year) {
         this.year = year;
     }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }

@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll()
+                                .requestMatchers("/api/auth/login", "/api/auth/signup" , "/api/token/refresh").permitAll()
                                 .requestMatchers("/api/auth/hello").authenticated()
                                 .anyRequest()
                                 .authenticated()

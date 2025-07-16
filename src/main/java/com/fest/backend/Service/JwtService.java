@@ -3,6 +3,7 @@ package com.fest.backend.Service;
 import com.fest.backend.Entity.FestUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.cglib.core.internal.Function;
@@ -37,6 +38,17 @@ public class JwtService {
                  .compact();
 
     }
+
+    public String generateRefreshToken(FestUser user) {
+        return Jwts.builder()
+                .setSubject(user.getEmail())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 days
+                .signWith(generateKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+
 
     public SecretKey generateKey()
     {
