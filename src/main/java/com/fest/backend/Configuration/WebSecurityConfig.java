@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/api/auth/login",
                                 "/api/auth/signup",
-                                "/api/token/refresh",
+                                "/api/auth/refresh-token",
                                 "/api/auth/logout"
                         ).permitAll()
                         .anyRequest().authenticated()
