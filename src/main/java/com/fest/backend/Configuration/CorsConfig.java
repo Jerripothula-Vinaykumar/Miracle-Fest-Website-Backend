@@ -14,10 +14,15 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173" , "https://miracle-fest-website-bimu.vercel.app" )
-                        .allowedMethods("GET", "POST", "PUT","PATCH" ,  "DELETE")
+                        .allowedOrigins(
+                                "http://localhost:5173",
+                                "https://miracle-fest-website-bimu.vercel.app"
+                        )
+                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true); // required when using withCredentials:true
+                        .exposedHeaders("Set-Cookie") // Important: so frontend can access Set-Cookie header
+                        .allowCredentials(true)
+                        .maxAge(3600); // optional: preflight cache time
             }
         };
     }
